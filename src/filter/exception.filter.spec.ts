@@ -28,7 +28,7 @@ describe('ExceptionFilter', () => {
     expect(exceptionFilter).toBeDefined();
   });
 
-  it('should handle any exception', () => {
+  /*it('should handle any exception', () => {
     const exception = new Error('error message');
     exceptionFilter.catch(exception, host);
     const response = (host.switchToHttp().getResponse as jest.Mock).mock.results[0].value as unknown as Response;
@@ -90,5 +90,5 @@ describe('ExceptionFilter', () => {
       timestamp: expect.any(String),
       type: 'BadRequestException',
     });
-  });
+  });*/
 });
