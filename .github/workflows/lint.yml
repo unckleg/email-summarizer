@@ -1,0 +1,18 @@
+name: Lint via Eslint
+on: push
+jobs:
+  run-linters:
+    name: lint-eslint
+    runs-on: ubuntu-latest
+    steps:
+      - name: git-checkout
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.0
+      - name: npm-install
+        run: npm i -D
+      - name: run-eslint
+        working-directory: ./
+        run: npx eslint ./src --ext .ts,.tsx

@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: fugu-infra-namespace
+  name: fugu-server-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 3001
+      targetPort: 3001
+  selector:
+    app: fugu-server
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: fugu-infra-namespace
+  name: fugu-server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fugu-server
+  template:
+    metadata:
+      labels:
+        app: fugu-server
+    spec:
+      imagePullSecrets:
+        - name: registry-secret
+      containers:
+        - name: fugu-server
+          image: ghcr.io/unckleg/deel-above-and-beyond/server:main
+          ports:
+            - containerPort: 3001
+          imagePullPolicy: Always
