@@ -28,7 +28,6 @@ export class EmailSummarizerController {
   @ApiOkResponse({
     description: 'Return the summary and sentiment to the client',
     type: SummaryAndSentimentResponseDTO,
-    isArray: true,
   })
   async summarize(@Body(new ValidationPipe({ transform: true })) emailDTO: EmailDTO): Promise<SummaryAndSentimentResponseDTO> {
     const summaryAndSentimentResponse = await this.sentimentAnalysisService.analyzeEmailSentiment(emailDTO);

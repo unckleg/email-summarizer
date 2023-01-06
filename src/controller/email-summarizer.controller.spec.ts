@@ -6,7 +6,7 @@ import { SentimentAnalysisService } from '../service/sentiment-analysis.service'
 import { ApiTestModuleMetadata } from '../api.module';
 import { SummaryAndSentimentResponseDTO } from '../dto/response.dto';
 
-describe('BlogController', () => {
+describe('EmailSummarizerController', () => {
   let controller: EmailSummarizerController;
   let service: SentimentAnalysisService;
 
@@ -21,7 +21,7 @@ describe('BlogController', () => {
   });
 
   describe('summarize', () => {
-    it('should return an array of posts', async () => {
+    it('should return an summary object', async () => {
       const summary = 'Bogus text with happy ending.';
       const result = plainToClass(SummaryAndSentimentResponseDTO, {
         summary,
