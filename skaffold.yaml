@@ -10,4 +10,3 @@ deploy:
       - ./manifests/volumes.yaml
       - ./manifests/secrets.yaml
       - ./manifests/server.yaml
-      - ./manifests/client.yaml

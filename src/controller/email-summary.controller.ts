@@ -7,11 +7,13 @@ import { SentimentAnalysisService } from '../service/sentiment-analysis.service'
 import { EmailDTO } from '../dto/email.dto';
 import { SummaryAndSentimentResponseDTO } from '../dto/response.dto';
 
-@ApiTags(...['email-summarizer'])
-@Controller('api/v1/email-summarizer')
+const apiTags = ['email-summarizer'];
+const endpoint = 'api/v1/email-summarizer';
+
+@ApiTags(...apiTags)
+@Controller(endpoint)
 @ApiExtraModels(ResponseErrorDto)
-@Controller()
-export class EmailSummarizerController {
+export class EmailSummaryController {
   constructor(private readonly sentimentAnalysisService: SentimentAnalysisService) {}
 
   /*
@@ -30,7 +32,7 @@ export class EmailSummarizerController {
     type: SummaryAndSentimentResponseDTO,
   })
   async summarize(@Body(new ValidationPipe({ transform: true })) emailDTO: EmailDTO): Promise<SummaryAndSentimentResponseDTO> {
-    const summaryAndSentimentResponse = await this.sentimentAnalysisService.analyzeEmailSentiment(emailDTO);
+    const summaryAndSentimentResponse = await this.sentimentAnalysisService.analyze(emailDTO);
     return plainToClass(SummaryAndSentimentResponseDTO, summaryAndSentimentResponse);
   }
 }

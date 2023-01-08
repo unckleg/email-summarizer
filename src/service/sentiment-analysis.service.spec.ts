@@ -29,7 +29,7 @@ describe('SentimentAnalysisService', () => {
         },
       } as any);
 
-      const result = await sentimentAnalysisService.analyzeEmailSentiment(emailDTO);
+      const result = await sentimentAnalysisService.analyze(emailDTO);
       expect(result).toEqual({
         summary,
         sentiment,
@@ -54,7 +54,7 @@ describe('SentimentAnalysisService', () => {
         },
       } as any);
 
-      const result = await sentimentAnalysisService.analyzeEmailSentiment(emailDTO);
+      const result = await sentimentAnalysisService.analyze(emailDTO);
       expect(result).toEqual({
         summary,
         sentiment: 'neutral',

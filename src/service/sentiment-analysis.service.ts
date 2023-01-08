@@ -7,35 +7,39 @@ import { OpenAIApi } from 'openai';
 export class SentimentAnalysisService {
   constructor(private readonly openai: OpenAIApi) {}
 
-  async analyzeEmailSentiment(emailDTO: EmailDTO): Promise<SummaryAndSentimentResponseDTO> {
-    // Use OpenAI's GPT-3 to summarize the email
+  async analyze(emailDTO: EmailDTO): Promise<SummaryAndSentimentResponseDTO> {
+    const [summary, sentiment] = await Promise.all([this.summarizeEmail(emailDTO.text), this.analyzeEmailSentiment(emailDTO.text)]);
+
+    return {
+      summary,
+      sentiment,
+      awaitingResponse: emailDTO.awaitingResponse,
+    };
+  }
+
+  private async summarizeEmail(emailText: string): Promise<string> {
     const response = await this.openai.createCompletion({
       model: 'text-davinci-002',
-      prompt: `Summarize this email: ${emailDTO.text}`,
+      prompt: `Summarize this email: ${emailText}`,
       temperature: 0.5,
       max_tokens: 512,
     });
-    const summary = response.data.choices.shift()?.text;
+    return response.data.choices.shift()?.text as string;
+  }
 
-    // Use OpenAI's GPT-3 to analyze the sentiment of the email
+  private async analyzeEmailSentiment(emailText: string): Promise<'positive' | 'negative' | 'angry' | 'neutral'> {
     const sentimentResponse = await this.openai.createCompletion({
       model: 'text-davinci-002',
-      prompt: `What is the sentiment of this email: ${emailDTO.text}`,
+      prompt: `What is the sentiment of this email: ${emailText}`,
       temperature: 0.5,
       max_tokens: 512,
     });
     const sentiment = sentimentResponse.data.choices.shift()?.text;
-
     const matches = sentiment
       ?.trim()
       .split(' ')
       .pop()
-      ?.match(/(positive|negative|neutral)/gi) as ['positive' | 'negative' | 'neutral'];
-
-    return {
-      summary,
-      sentiment: matches?.shift(),
-      awaitingResponse: emailDTO.awaitingResponse,
-    };
+      ?.match(/(positive|negative|neutral)/gi) as ['positive' | 'negative' | 'neutral' | 'angry'];
+    return matches?.shift() as 'positive' | 'negative' | 'neutral';
   }
 }

@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { Configuration, OpenAIApi } from 'openai';
 
 import { ExceptionFilter } from './filter/exception.filter';
-import { EmailSummarizerController } from './controller/email-summarizer.controller';
 import { SentimentAnalysisService } from './service/sentiment-analysis.service';
+import { EmailSummaryController } from './controller/email-summary.controller';
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -11,7 +11,7 @@ const configuration = new Configuration({
 
 const ApiModuleMetadata = {
   exports: [SentimentAnalysisService],
-  controllers: [EmailSummarizerController],
+  controllers: [EmailSummaryController],
   providers: [
     SentimentAnalysisService,
     ExceptionFilter,

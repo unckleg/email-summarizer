@@ -14,7 +14,7 @@ export class SummaryAndSentimentResponseDTO {
   @Expose()
   @IsString()
   @IsNotEmpty()
-  sentiment?: 'positive' | 'negative' | 'neutral';
+  sentiment?: 'positive' | 'negative' | 'neutral' | 'angry';
 
   @ApiProperty({ default: false })
   @Expose()

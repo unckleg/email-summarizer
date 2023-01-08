@@ -30,7 +30,7 @@ spec:
         - name: registry-secret
       containers:
         - name: fugu-server
-          image: ghcr.io/unckleg/deel-above-and-beyond/server:main
+          image: ghcr.io/unckleg/email-summarizer/server:main
           ports:
             - containerPort: 3001
           imagePullPolicy: Always
