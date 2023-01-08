@@ -1,6 +1,6 @@
 import { Exclude, Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 @Exclude()
 export class EmailDTO {
@@ -19,9 +19,4 @@ export class EmailDTO {
   @IsString()
   @IsNotEmpty()
   text!: string;
-
-  @ApiProperty()
-  @Expose()
-  @IsBoolean()
-  awaitingResponse: boolean;
 }

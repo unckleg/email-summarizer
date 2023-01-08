@@ -29,7 +29,7 @@ describe('EmailSummarizerController', () => {
         awaitingResponse: true,
       });
       jest.spyOn(service, 'analyze').mockResolvedValue(result);
-      expect(await controller.summarize({ text: summary, awaitingResponse: true })).toStrictEqual(result);
+      expect(await controller.summarize({ text: summary })).toStrictEqual(result);
     });
   });
 });

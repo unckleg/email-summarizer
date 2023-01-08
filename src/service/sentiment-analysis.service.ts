@@ -9,12 +9,16 @@ export class SentimentAnalysisService {
 
   async analyze(emailDTO: EmailDTO): Promise<SummaryAndSentimentResponseDTO | void> {
     try {
-      const [summary, sentiment] = await Promise.all([this.summarizeEmail(emailDTO.text), this.analyzeEmailSentiment(emailDTO.text)]);
+      const [summary, sentiment, awaitingResponse] = await Promise.all([
+        this.summarizeEmail(emailDTO.text),
+        this.analyzeEmailSentiment(emailDTO.text),
+        this.isAwaitingResponse(emailDTO.text),
+      ]);
 
       return {
         summary,
         sentiment,
-        awaitingResponse: emailDTO.awaitingResponse,
+        awaitingResponse,
       };
     } catch (e) {
       Logger.error(e);
@@ -29,6 +33,18 @@ export class SentimentAnalysisService {
       max_tokens: 512,
     });
     return response.data.choices.shift()?.text as string;
+  }
+
+  private async isAwaitingResponse(emailText: string): Promise<boolean> {
+    const awaitingResponse = await this.openai.createCompletion({
+      model: 'text-davinci-002',
+      prompt: `Is this email awaiting a response: ${emailText}`,
+      temperature: 0.5,
+      max_tokens: 512,
+    });
+
+    const awaitingResponseChoices = awaitingResponse.data.choices?.shift();
+    return !!(awaitingResponseChoices && awaitingResponseChoices.text && awaitingResponseChoices?.text.toLowerCase().includes('yes'));
   }
 
   private async analyzeEmailSentiment(emailText: string): Promise<'positive' | 'negative' | 'angry' | 'neutral'> {

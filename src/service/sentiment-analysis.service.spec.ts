@@ -14,7 +14,6 @@ describe('SentimentAnalysisService', () => {
     it('should return a summary and sentiment of the email', async () => {
       const emailDTO = {
         text: 'This is an example email.',
-        awaitingResponse: false,
       };
       const summary = 'Summary of email';
       const sentiment = 'positive';
@@ -28,19 +27,23 @@ describe('SentimentAnalysisService', () => {
           choices: [{ text: `The sentiment of this email is ${sentiment}.` }],
         },
       } as any);
+      jest.spyOn(openai, 'createCompletion').mockResolvedValueOnce({
+        data: {
+          choices: [{ text: `No` }],
+        },
+      } as any);
 
       const result = await sentimentAnalysisService.analyze(emailDTO);
       expect(result).toEqual({
         summary,
         sentiment,
-        awaitingResponse: emailDTO.awaitingResponse,
+        awaitingResponse: false,
       });
     });
 
     it('should return a neutral sentiment if no sentiment can be determined', async () => {
       const emailDTO = {
         text: 'This is an example email.',
-        awaitingResponse: false,
       };
       const summary = 'Summary of email';
       jest.spyOn(openai, 'createCompletion').mockResolvedValueOnce({
@@ -53,12 +56,17 @@ describe('SentimentAnalysisService', () => {
           choices: [{ text: `I'll be neutral.` }],
         },
       } as any);
+      jest.spyOn(openai, 'createCompletion').mockResolvedValueOnce({
+        data: {
+          choices: [{ text: `No` }],
+        },
+      } as any);
 
       const result = await sentimentAnalysisService.analyze(emailDTO);
       expect(result).toEqual({
         summary,
         sentiment: 'neutral',
-        awaitingResponse: emailDTO.awaitingResponse,
+        awaitingResponse: false,
       });
     });
   });
