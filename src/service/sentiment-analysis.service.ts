@@ -11,6 +11,8 @@ export class SentimentAnalysisService {
     try {
       const [summary, sentiment] = await Promise.all([this.summarizeEmail(emailDTO.text), this.analyzeEmailSentiment(emailDTO.text)]);
 
+      console.log(process.env);
+      console.log(process.env);
       return {
         summary,
         sentiment,
