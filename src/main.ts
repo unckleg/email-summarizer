@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { Logger, Module, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as compression from 'compression';
 import helmet from 'helmet';
 import { ApiModule } from './api.module';
 import { ExceptionFilter } from './filter/exception.filter';
@@ -17,7 +16,6 @@ export class AppModule {}
 
   // Middlewares
   app.use(helmet());
-  app.use(compression());
   app.useGlobalFilters(new ExceptionFilter());
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();

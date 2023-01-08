@@ -4,7 +4,7 @@ Simple Email Summarizer API built with [Nest.js/TypeScript](https://nestjs.com/)
 
 To run this API locally, you can use the container environment created for this project using [Docker Compose](https://docs.docker.com/compose/) with the right version of [Node.js](https://nodejs.org/en/). Check the configuration section below.
 
-An API documentation with requests and responses examples is available on [https://localhost:3001/docs](https://localhost:3001/docs). This documentation was generated using [Swagger/OpenAPI](https://swagger.io/specification/) so you can interact with API from OpenAPI UI.
+An API documentation with requests and responses examples is available on [https://email-summarizer-api.vercel.app/docs](https://email-summarizer-api.vercel.app/docs). This documentation was generated using [Swagger/OpenAPI](https://swagger.io/specification/) so you can interact with API from OpenAPI UI.
 
 The main tool used for testing is [Jest](https://facebook.github.io/jest/).
 
