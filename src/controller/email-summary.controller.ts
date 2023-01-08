@@ -32,6 +32,8 @@ export class EmailSummaryController {
     type: SummaryAndSentimentResponseDTO,
   })
   async summarize(@Body(new ValidationPipe({ transform: true })) emailDTO: EmailDTO): Promise<SummaryAndSentimentResponseDTO> {
+    console.log(process.env);
+    console.log(process.env);
     const summaryAndSentimentResponse = await this.sentimentAnalysisService.analyze(emailDTO);
     return plainToClass(SummaryAndSentimentResponseDTO, summaryAndSentimentResponse);
   }
