@@ -25,7 +25,7 @@ export class AppModule {}
   // Middlewares
   app.use(helmet());
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  app.use(require('express-basic-auth')({ users: { [`${process.env.API_USERNAME}`]: [process.env.API_PASSWORD] }, challenge: true }));
+  app.use(require('express-basic-auth')({ users: { [`${process.env.API_USERNAME}`]: `${process.env.API_PASSWORD}` }, challenge: true }));
   app.useGlobalFilters(new ExceptionFilter());
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
