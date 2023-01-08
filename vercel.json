@@ -1,8 +1,5 @@
 {
   "version": 2,
-  "env": {
-    "OPENAI_API_KEY": "$OPENAI_API_KEY"
-  },
   "builds": [
     {
       "src": "src/main.ts",
