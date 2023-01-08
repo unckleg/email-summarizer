@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { EmailDTO } from '../dto/email.dto';
 import { SummaryAndSentimentResponseDTO } from '../dto/response.dto';
 import { OpenAIApi } from 'openai';
@@ -7,14 +7,18 @@ import { OpenAIApi } from 'openai';
 export class SentimentAnalysisService {
   constructor(private readonly openai: OpenAIApi) {}
 
-  async analyze(emailDTO: EmailDTO): Promise<SummaryAndSentimentResponseDTO> {
-    const [summary, sentiment] = await Promise.all([this.summarizeEmail(emailDTO.text), this.analyzeEmailSentiment(emailDTO.text)]);
+  async analyze(emailDTO: EmailDTO): Promise<SummaryAndSentimentResponseDTO | void> {
+    try {
+      const [summary, sentiment] = await Promise.all([this.summarizeEmail(emailDTO.text), this.analyzeEmailSentiment(emailDTO.text)]);
 
-    return {
-      summary,
-      sentiment,
-      awaitingResponse: emailDTO.awaitingResponse,
-    };
+      return {
+        summary,
+        sentiment,
+        awaitingResponse: emailDTO.awaitingResponse,
+      };
+    } catch (e) {
+      Logger.error(e);
+    }
   }
 
   private async summarizeEmail(emailText: string): Promise<string> {
