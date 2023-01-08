@@ -2,12 +2,20 @@ import { NestFactory } from '@nestjs/core';
 import { Logger, Module, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import helmet from 'helmet';
+import { join } from 'path';
 import { ApiModule } from './api.module';
 import { ExceptionFilter } from './filter/exception.filter';
 
 @Module({
-  imports: [ApiModule],
+  imports: [
+    ApiModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'swagger-static'),
+      serveRoot: process.env.NODE_ENV === 'development' ? '/' : '/docs',
+    }),
+  ],
 })
 export class AppModule {}
 
